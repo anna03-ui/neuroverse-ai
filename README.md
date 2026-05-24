@@ -1,20 +1,43 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# NeuroVerse AI
 
-# Run and deploy your AI Studio app
+A futuristic AI-powered academic operating system built using:
 
-This contains everything you need to run your app locally.
+- Google Stitch
+- Antigravity IDE
+- Gemini AI
+- Firebase
+- React + TypeScript
 
-View your app in AI Studio: https://ai.studio/apps/23114861-a1d6-4527-a928-abdeab34bb5b
+## Workflow
 
-## Run Locally
+1. Designed UI screens using Google Stitch
+2. Connected Stitch to Antigravity through MCP integration
+3. Generated and refined frontend architecture using AI-assisted workflows
+4. Integrated Firebase Authentication and Firestore backend
+5. Added AI-powered modules including BrainMirror, MindDump, StudyVerse, and ExamSprint
+6. Performed debugging, optimization, and testing in Antigravity
+7. Prepared production-ready MVP deployment
 
-**Prerequisites:**  Node.js
+## Features
 
+- AI Study Assistant
+- Personalized Themes
+- AI Companion
+- Dashboard Analytics
+- Dark/Light Mode
+- Responsive Design
+- Emotional Productivity Tools
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Tech Stack
+
+- React
+- TypeScript
+- Firebase
+- Gemini AI
+- Stitch
+- Antigravity
+- Tailwind/CSS
+
+## Deployment
+
+Live App: [Add Vercel Link Here]
