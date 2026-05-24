@@ -1,0 +1,6 @@
+{
+  "name": "NeuroVerse AI",
+  "description": "A futuristic AI-powered academic operating system with cognitive profiling, emotional offloading, gamified productivity missions, and emergency exam modes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

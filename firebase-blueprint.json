@@ -1,0 +1,86 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "User Profile",
+      "description": "User academic profile, XP, streak, and current focus vibe",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique user ID from Firebase Auth" },
+        "email": { "type": "string", "description": "Student email address" },
+        "displayName": { "type": "string", "description": "Student academic alias" },
+        "xp": { "type": "integer", "description": "Accumulated cognitive XP" },
+        "level": { "type": "integer", "description": "Current neural level" },
+        "streak": { "type": "integer", "description": "Consecutive focus day streak" },
+        "selectedVibe": { "type": "string", "description": "Currently active aesthetic environment" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "MindDump": {
+      "title": "Mind Dump Entry",
+      "description": "Extracted stress and emotional clearance items with AI action plans",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "rawText": { "type": "string", "description": "User's raw chaotic stream-of-consciousness text" },
+        "actionPlan": { "type": "array", "description": "List of extracted actionable checklist items" },
+        "clarityPercentage": { "type": "integer", "description": "Extracted clarity indicator from 0 to 100" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "rawText", "clarityPercentage"]
+    },
+    "BrainMirrorAssessment": {
+      "title": "Brain Mirror Assessment",
+      "description": "Radar results of cognitive capabilities, focus alignments, and recommendations",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "visualSynthesis": { "type": "integer" },
+        "logicalFlow": { "type": "integer" },
+        "retention": { "type": "integer" },
+        "verbalRecall": { "type": "integer" },
+        "focusDepth": { "type": "integer" },
+        "creativity": { "type": "integer" },
+        "recommendations": { "type": "array" },
+        "diagnosticAnswers": { "type": "array" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "visualSynthesis", "logicalFlow", "retention"]
+    },
+    "StudyVerseSession": {
+      "title": "Study Verse Session",
+      "description": "Study logs and logs of interactive AI tutoring sessions",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "topic": { "type": "string" },
+        "messages": { "type": "array" },
+        "focusDuration": { "type": "integer" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "topic"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "UserProfile",
+      "description": "User profile collection"
+    },
+    "/users/{userId}/mindDumps/{dumpId}": {
+      "schema": "MindDump",
+      "description": "MindDump releases under individual user profiles"
+    },
+    "/users/{userId}/assessments/{assessmentId}": {
+      "schema": "BrainMirrorAssessment",
+      "description": "BrainMirror cognitive diagnostic history"
+    },
+    "/users/{userId}/studySessions/{sessionId}": {
+      "schema": "StudyVerseSession",
+      "description": "StudyVerse AI tutoring chat history logs"
+    }
+  }
+}

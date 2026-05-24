@@ -1,0 +1,97 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Global safety net - Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Shared Helper functions
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    // Validation Blueprints
+    function isValidUserProfile(data) {
+      return data.uid is string && data.uid == request.auth.uid
+          && data.email is string && data.email.size() <= 200
+          && data.displayName is string && data.displayName.size() <= 100
+          && data.xp is int && data.xp >= 0
+          && data.level is int && data.level >= 0
+          && data.streak is int && data.streak >= 0
+          && data.selectedVibe is string && data.selectedVibe.size() <= 50;
+    }
+
+    function isValidMindDump(data) {
+      return data.id is string && data.id.size() <= 100
+          && data.userId is string && data.userId == request.auth.uid
+          && data.rawText is string && data.rawText.size() <= 20000
+          && data.clarityPercentage is int && data.clarityPercentage >= 0 && data.clarityPercentage <= 100
+          && data.actionPlan is list && data.actionPlan.size() <= 100;
+    }
+
+    function isValidBrainMirrorAssessment(data) {
+      return data.id is string && data.id.size() <= 100
+          && data.userId is string && data.userId == request.auth.uid
+          && data.visualSynthesis is int && data.visualSynthesis >= 0 && data.visualSynthesis <= 100
+          && data.logicalFlow is int && data.logicalFlow >= 0 && data.logicalFlow <= 100
+          && data.retention is int && data.retention >= 0 && data.retention <= 100
+          && data.verbalRecall is int && data.verbalRecall >= 0 && data.verbalRecall <= 100
+          && data.focusDepth is int && data.focusDepth >= 0 && data.focusDepth <= 100
+          && data.creativity is int && data.creativity >= 0 && data.creativity <= 100
+          && data.recommendations is list && data.recommendations.size() <= 50;
+    }
+
+    function isValidStudyVerseSession(data) {
+      return data.id is string && data.id.size() <= 100
+          && data.userId is string && data.userId == request.auth.uid
+          && data.topic is string && data.topic.size() <= 250
+          && data.messages is list && data.messages.size() <= 500;
+    }
+
+    // User path matching
+    match /users/{userId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) 
+                    && isValidUserProfile(request.resource.data)
+                    && request.resource.data.keys().hasAll(['uid', 'email', 'xp', 'level', 'streak', 'selectedVibe', 'displayName']);
+      
+      allow update: if isOwner(userId) 
+                    && isValidUserProfile(request.resource.data) 
+                    && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['xp', 'level', 'streak', 'selectedVibe', 'displayName', 'updatedAt', 'themeMode', 'customTheme', 'fontFamily', 'dashboardBg']);
+
+      // MindDump subcollection
+      match /mindDumps/{dumpId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(dumpId) && isValidMindDump(request.resource.data);
+        allow update: if isOwner(userId) && isValidId(dumpId) && isValidMindDump(request.resource.data) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['rawText', 'actionPlan', 'clarityPercentage']);
+        allow delete: if isOwner(userId);
+      }
+
+      // Assessments subcollection
+      match /assessments/{assessmentId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(assessmentId) && isValidBrainMirrorAssessment(request.resource.data);
+        allow update: if isOwner(userId) && isValidId(assessmentId) && isValidBrainMirrorAssessment(request.resource.data) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['visualSynthesis', 'logicalFlow', 'retention', 'verbalRecall', 'focusDepth', 'creativity', 'recommendations']);
+        allow delete: if isOwner(userId);
+      }
+
+      // Study sessions subcollection
+      match /studySessions/{sessionId} {
+        allow read: if isOwner(userId);
+        allow create: if isOwner(userId) && isValidId(sessionId) && isValidStudyVerseSession(request.resource.data);
+        allow update: if isOwner(userId) && isValidId(sessionId) && isValidStudyVerseSession(request.resource.data) && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['messages', 'focusDuration']);
+        allow delete: if isOwner(userId);
+      }
+    }
+  }
+}
