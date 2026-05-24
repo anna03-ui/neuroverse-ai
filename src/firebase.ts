@@ -3,6 +3,9 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 import config from "../firebase-applet-config.json";
 
+import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
+
 const firebaseConfig = {
   apiKey: "AIzaSyDK-9ZhV_ZD1gWfxDMQviGJsIoIixc9-WA",
   authDomain: "neuroverse-ai-eb3fd.firebaseapp.com",
@@ -10,8 +13,13 @@ const firebaseConfig = {
   storageBucket: "neuroverse-ai-eb3fd.firebasestorage.app",
   messagingSenderId: "398836890239",
   appId: "1:398836890239:web:a4701800e0fbf717879d4a",
-  measurementId: "G-Z5W7X43NBP"
 };
+
+const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth(app);
+
+export default app;
 
 // Initialize App
 const app = initializeApp(firebaseConfig);
