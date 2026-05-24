@@ -4,12 +4,13 @@ import { getFirestore } from "firebase/firestore";
 import config from "../firebase-applet-config.json";
 
 const firebaseConfig = {
-  apiKey: config.apiKey,
-  authDomain: config.authDomain,
-  projectId: config.projectId,
-  storageBucket: config.storageBucket,
-  messagingSenderId: config.messagingSenderId,
-  appId: config.appId,
+  apiKey: "AIzaSyDK-9ZhV_ZD1gWfxDMQviGJsIoIixc9-WA",
+  authDomain: "neuroverse-ai-eb3fd.firebaseapp.com",
+  projectId: "neuroverse-ai-eb3fd",
+  storageBucket: "neuroverse-ai-eb3fd.firebasestorage.app",
+  messagingSenderId: "398836890239",
+  appId: "1:398836890239:web:a4701800e0fbf717879d4a",
+  measurementId: "G-Z5W7X43NBP"
 };
 
 // Initialize App
