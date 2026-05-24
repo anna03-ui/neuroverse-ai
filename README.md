@@ -40,4 +40,9 @@ A futuristic AI-powered academic operating system built using:
 
 ## Deployment
 
-Live App: [Add Vercel Link Here]
+Live App:
+neuroverse-4356v39ax-anna03-uis-projects.vercel.app
+
+##Domain:
+https://ai.studio/apps/23114861-a1d6-4527-a928-abdeab34bb5b?fullscreenApplet=true
+
